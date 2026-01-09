@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <!-- 1. Tạo bảng Admin (quản trị viên) -->
+    <changeSet id="1" author="toanld">
+        <createTable tableName="admin">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="username" type="VARCHAR(50)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="password" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- 2. Tạo bảng Student (học viên) -->
+    <changeSet id="2" author="toanld">
+        <createTable tableName="student">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dob" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(100)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="sex" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone" type="VARCHAR(20)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="password" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="create_at" type="DATE" defaultValueComputed="CURRENT_DATE">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- 3. Tạo bảng Course (Khóa học) -->
+    <changeSet id="3" author="toanld">
+        <createTable tableName="course">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="duration" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="instructor" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="create_at" type="DATE" defaultValueComputed="CURRENT_DATE">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- 4. Tạo bảng Enrollment (Đăng ký khóa học) -->
+    <changeSet id="4" author="toanld">
+        <createTable tableName="enrollment">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="student_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="course_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="registered_at" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="VARCHAR(10)" defaultValue="WAITING">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- Thêm foreign key constraints cho bảng Enrollment -->
+    <changeSet id="5" author="toanld">
+        <addForeignKeyConstraint
+                baseTableName="enrollment"
+                baseColumnNames="student_id"
+                constraintName="fk_enrollment_student"
+                referencedTableName="student"
+                referencedColumnNames="id"
+                onDelete="CASCADE"
+                onUpdate="CASCADE"/>
+    </changeSet>
+
+    <changeSet id="6" author="toanld">
+        <addForeignKeyConstraint
+                baseTableName="enrollment"
+                baseColumnNames="course_id"
+                constraintName="fk_enrollment_course"
+                referencedTableName="course"
+                referencedColumnNames="id"
+                onDelete="CASCADE"
+                onUpdate="CASCADE"/>
+    </changeSet>
+
+</databaseChangeLog>
