@@ -1,13 +1,13 @@
 package com.session2.model;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 public class Course {
     private Integer id;
     private String name;
     private Integer duration;
     private String instructor;
-    private Date createAt;
+    private Timestamp createAt;
 
     public Integer getId() {
         return this.id;
@@ -41,11 +41,11 @@ public class Course {
         this.instructor = instructor;
     }
 
-    public Date getCreateAt() {
+    public Timestamp getCreateAt() {
         return this.createAt;
     }
 
-    public void setCreateAt(Date createAt) {
+    public void setCreateAt(Timestamp createAt) {
         this.createAt = createAt;
     }
 
