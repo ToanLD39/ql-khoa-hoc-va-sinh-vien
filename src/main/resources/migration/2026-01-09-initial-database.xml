@@ -6,9 +6,9 @@
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
 
     <!-- 1. Tạo bảng Admin (quản trị viên) -->
-    <changeSet id="1" author="toanld">
+    <changeSet id="2026-01-09-initial-database-01" author="toanld">
         <createTable tableName="admin">
-            <column name="id" type="INT" autoIncrement="true">
+            <column name="id" type="SERIAL">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="username" type="VARCHAR(50)">
@@ -21,9 +21,9 @@
     </changeSet>
 
     <!-- 2. Tạo bảng Student (học viên) -->
-    <changeSet id="2" author="toanld">
+    <changeSet id="2026-01-09-initial-database-02" author="toanld">
         <createTable tableName="student">
-            <column name="id" type="INT" autoIncrement="true">
+            <column name="id" type="SERIAL">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="name" type="VARCHAR(100)">
@@ -35,7 +35,7 @@
             <column name="email" type="VARCHAR(100)">
                 <constraints nullable="false" unique="true"/>
             </column>
-            <column name="sex" type="BIT">
+            <column name="sex" type="BOOLEAN">
                 <constraints nullable="false"/>
             </column>
             <column name="phone" type="VARCHAR(20)">
@@ -51,9 +51,9 @@
     </changeSet>
 
     <!-- 3. Tạo bảng Course (Khóa học) -->
-    <changeSet id="3" author="toanld">
+    <changeSet id="2026-01-09-initial-database-03" author="toanld">
         <createTable tableName="course">
-            <column name="id" type="INT" autoIncrement="true">
+            <column name="id" type="SERIAL">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="name" type="VARCHAR(100)">
@@ -72,9 +72,9 @@
     </changeSet>
 
     <!-- 4. Tạo bảng Enrollment (Đăng ký khóa học) -->
-    <changeSet id="4" author="toanld">
+    <changeSet id="2026-01-09-initial-database-04" author="toanld">
         <createTable tableName="enrollment">
-            <column name="id" type="INT" autoIncrement="true">
+            <column name="id" type="SERIAL">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="student_id" type="INT">
@@ -83,7 +83,7 @@
             <column name="course_id" type="INT">
                 <constraints nullable="false"/>
             </column>
-            <column name="registered_at" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="registered_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
             <column name="status" type="VARCHAR(10)" defaultValue="WAITING">
@@ -92,8 +92,8 @@
         </createTable>
     </changeSet>
 
-    <!-- Thêm foreign key constraints cho bảng Enrollment -->
-    <changeSet id="5" author="toanld">
+    <!-- 5. Thêm foreign key từ enrollment đến student -->
+    <changeSet id="2026-01-09-initial-database-05" author="toanld">
         <addForeignKeyConstraint
                 baseTableName="enrollment"
                 baseColumnNames="student_id"
@@ -104,7 +104,8 @@
                 onUpdate="CASCADE"/>
     </changeSet>
 
-    <changeSet id="6" author="toanld">
+    <!-- 6. Thêm foreign key từ enrollment đến course -->
+    <changeSet id="2026-01-09-initial-database-06" author="toanld">
         <addForeignKeyConstraint
                 baseTableName="enrollment"
                 baseColumnNames="course_id"
