@@ -128,4 +128,23 @@ public class ConsoleColors {
         System.out.println(PURPLE_BOLD + "│ " + WHITE_BRIGHT + text + PURPLE_BOLD + " │" + RESET);
         System.out.println(PURPLE_BOLD + "└" + "─".repeat(length - 2) + "┘" + RESET);
     }
+    
+    /**
+     * Clear console screen
+     */
+    public static void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+    
+    /**
+     * Delay execution
+     */
+    public static void delay(int milliseconds) {
+        try {
+            Thread.sleep(milliseconds);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
 }

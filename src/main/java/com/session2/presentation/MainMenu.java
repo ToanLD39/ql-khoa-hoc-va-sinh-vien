@@ -1,17 +1,30 @@
 package com.session2.presentation;
 
+import com.session2.service.IAdminService;
+import com.session2.service.IStudentService;
+import com.session2.service.imp.AdminService;
+import com.session2.service.imp.StudentService;
 import com.session2.utils.ConsoleColors;
 import java.util.Scanner;
 
 public class MainMenu {
+    private IAdminService adminService;
+    private IStudentService studentService;
+
     private Scanner scanner;
+
     private AdminPresentation adminPresentation;
     private StudentPresentation studentPresentation;
     
     public MainMenu() {
+        this.adminService = new AdminService();
+        this.studentService = new StudentService();
+
         this.scanner = new Scanner(System.in);
+
         this.adminPresentation = new AdminPresentation();
         this.studentPresentation = new StudentPresentation();
+
     }
     
     public void display() {
@@ -59,10 +72,13 @@ public class MainMenu {
         ConsoleColors.printPrompt("Mật khẩu: ");
         String password = scanner.nextLine();
         
-        // TODO: Kiểm tra đăng nhập với database
-        // Tạm thời cho phép đăng nhập với username: admin, password: admin
-        if ("admin".equals(username) && "admin".equals(password)) {
+        // Kiểm tra đăng nhập với database thông qua AdminService
+        Boolean isAuthenticated = adminService.login(username, password);
+        
+        if (isAuthenticated) {
             ConsoleColors.printSuccess("Đăng nhập thành công!");
+            ConsoleColors.delay(1000); // Đợi 1 giây
+            ConsoleColors.clearScreen(); // Xóa màn hình
             adminPresentation.display();
         } else {
             ConsoleColors.printError("Tên đăng nhập hoặc mật khẩu không đúng!");
@@ -78,10 +94,12 @@ public class MainMenu {
         ConsoleColors.printPrompt("Mật khẩu: ");
         String password = scanner.nextLine();
         
-        // TODO: Kiểm tra đăng nhập với database
-        // Tạm thời cho phép đăng nhập với studentId: student, password: student
-        if ("student".equals(studentId) && "student".equals(password)) {
+        Boolean isAuthenticated = studentService.login(studentId, password);
+        
+        if (isAuthenticated) {
             ConsoleColors.printSuccess("Đăng nhập thành công!");
+            ConsoleColors.delay(1000);
+            ConsoleColors.clearScreen();
             studentPresentation.display();
         } else {
             ConsoleColors.printError("Mã học viên hoặc mật khẩu không đúng!");
