@@ -1,13 +1,16 @@
 package com.session2;
 
+import com.session2.presentation.MainMenu;
+
 /**
- * Hello world!
- *
+ * Ứng dụng Quản lý Khóa học và Sinh viên
  */
 public class App 
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+        MainMenu mainMenu = new MainMenu();
+        mainMenu.display();
+        mainMenu.close();
     }
 }
