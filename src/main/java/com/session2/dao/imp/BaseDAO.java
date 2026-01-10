@@ -1,4 +1,4 @@
-package com.session2.dao;
+package com.session2.dao.imp;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,7 +11,7 @@ public class BaseDAO {
     private static final String URL;
     private static final String USERNAME;
     private static final String PASSWORD;
-    
+
     static {
         Properties properties = new Properties();
         try (InputStream input = BaseDAO.class.getClassLoader().getResourceAsStream("database.properties")) {
@@ -26,7 +26,7 @@ public class BaseDAO {
             throw new RuntimeException("Error loading database properties", e);
         }
     }
-    
+
     public Connection getConnection() throws SQLException {
         Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
         if (connection.isClosed()) {

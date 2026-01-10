@@ -1,4 +1,4 @@
-package com.session2.dao;
+package com.session2.dao.imp;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,20 +9,19 @@ import java.util.List;
 import com.session2.model.Course;
 
 public class EnrollmentDAO extends BaseDAO {
-    private static final String GET_ENROLLMENTS_BY_STUDENT_ID_QUERY = 
-        "SELECT e.id, e.student_id, e.course_id, e.enroll_date, c.name AS course_name "
-        + "FROM course c "
-        + "JOIN enrollment e ON e.course_id = c.id "
-        + "WHERE e.student_id = ?";
-    
+    private static final String GET_ENROLLMENTS_BY_STUDENT_ID_QUERY = "SELECT e.id, e.student_id, e.course_id, e.enroll_date, c.name AS course_name "
+            + "FROM course c "
+            + "JOIN enrollment e ON e.course_id = c.id "
+            + "WHERE e.student_id = ?";
+
     private static final String ENROLL_COURSE_QUERY = "INSERT INTO enrollment (student_id, course_id, registered_at, status) VALUES (?, ?, NOW(), ?)";
-    
+
     private static final String UPDATE_ENROLLMENT_STATUS_QUERY = "UPDATE enrollment SET status = ? WHERE id = ?";
 
     private static final String GET_ENROLLMENT_BY_STATUS_QUERY = "SELECT e.id, e.student_id, e.course_id, e.enroll_date, c.name AS course_name "
-        + "FROM course c "
-        + "JOIN enrollment e ON e.course_id = c.id "
-        + "WHERE e.status = ? AND e.student_id = ? ";
+            + "FROM course c "
+            + "JOIN enrollment e ON e.course_id = c.id "
+            + "WHERE e.status = ? AND e.student_id = ? ";
 
     private static final String DELETE_ENROLLMENT_BY_STUDENT_ID_QUERY = "DELETE FROM enrollment WHERE student_id = ?";
 
@@ -49,7 +48,7 @@ public class EnrollmentDAO extends BaseDAO {
         }
         return courses;
     }
-    
+
     public boolean enrollCourse(Integer studentId, Integer courseId, String status) {
         Connection connection = null;
         PreparedStatement ps = null;

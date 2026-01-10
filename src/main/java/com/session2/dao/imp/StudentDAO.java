@@ -1,4 +1,4 @@
-package com.session2.dao;
+package com.session2.dao.imp;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

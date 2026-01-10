@@ -1,6 +1,7 @@
 package com.session2.service;
 
 public interface IAdminService {
-    //Quan ly khoa hoc
     Boolean login(String username, String password);
+    Boolean isFirstLogin(String username, String password);
+    Boolean changePassword(String newPassword);
 }

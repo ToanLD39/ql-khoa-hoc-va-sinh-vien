@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet id="insert-sample-course" author="toanld">
+        <comment>Insert 7 sample course into course table</comment>
+        
+        <insert tableName="course">
+            <column name="name" value="Java Programming Fundamentals"/>
+            <column name="duration" valueNumeric="40"/>
+            <column name="instructor" value="Nguyễn Văn A"/>
+            <column name="create_at" valueDate="2026-01-11T08:00:00"/>
+        </insert>
+
+        <insert tableName="course">
+            <column name="name" value="Python for Data Science"/>
+            <column name="duration" valueNumeric="35"/>
+            <column name="instructor" value="Trần Thị B"/>
+            <column name="create_at" valueDate="2026-01-11T09:00:00"/>
+        </insert>
+
+        <insert tableName="course">
+            <column name="name" value="Web Development with React"/>
+            <column name="duration" valueNumeric="50"/>
+            <column name="instructor" value="Lê Văn C"/>
+            <column name="create_at" valueDate="2026-01-11T10:00:00"/>
+        </insert>
+
+        <insert tableName="course">
+            <column name="name" value="Database Design and SQL"/>
+            <column name="duration" valueNumeric="30"/>
+            <column name="instructor" value="Phạm Thị D"/>
+            <column name="create_at" valueDate="2026-01-11T11:00:00"/>
+        </insert>
+
+        <insert tableName="course">
+            <column name="name" value="Machine Learning Basics"/>
+            <column name="duration" valueNumeric="60"/>
+            <column name="instructor" value="Hoàng Văn E"/>
+            <column name="create_at" valueDate="2026-01-11T13:00:00"/>
+        </insert>
+
+        <insert tableName="course">
+            <column name="name" value="Mobile App Development"/>
+            <column name="duration" valueNumeric="45"/>
+            <column name="instructor" value="Đặng Thị F"/>
+            <column name="create_at" valueDate="2026-01-11T14:00:00"/>
+        </insert>
+
+        <insert tableName="course">
+            <column name="name" value="Cloud Computing with AWS"/>
+            <column name="duration" valueNumeric="55"/>
+            <column name="instructor" value="Vũ Văn G"/>
+            <column name="create_at" valueDate="2026-01-11T15:00:00"/>
+        </insert>
+
+        <rollback>
+            <delete tableName="course">
+                <where>name IN ('Java Programming Fundamentals', 'Python for Data Science', 'Web Development with React', 'Database Design &amp; SQL', 'Machine Learning Basics', 'Mobile App Development', 'Cloud Computing with AWS')</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>
