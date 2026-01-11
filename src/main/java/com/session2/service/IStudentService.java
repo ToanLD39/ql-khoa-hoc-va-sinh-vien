@@ -24,4 +24,6 @@ public interface IStudentService {
     List<Student> getStudentsByEmail(String email);
 
     List<Student> getStudentsById(int courseId);
+
+    Student getStudentByEmail(String email);
 }

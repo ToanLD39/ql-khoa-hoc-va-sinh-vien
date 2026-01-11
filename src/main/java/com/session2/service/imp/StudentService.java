@@ -53,4 +53,8 @@ public class StudentService implements IStudentService {
     public List<Student> getStudentsById(int courseId) {
         return studentDAO.getStudentsById(courseId);
     }
+
+    public Student getStudentByEmail(String email) {
+        return studentDAO.getStudentByEmail(email);
+    }
 }

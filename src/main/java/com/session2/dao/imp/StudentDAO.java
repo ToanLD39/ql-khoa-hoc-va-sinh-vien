@@ -24,6 +24,7 @@ public class StudentDAO extends GenericDAO implements IStudentDAO {
     private static final String SORT_STUDENTS_DESC_BY_ID_QUERY = "SELECT id, name, dob, email, sex, phone, password, create_at FROM student ORDER BY id DESC";
     private static final String SORT_STUDENTS_DESC_BY_NAME_QUERY = "SELECT id, name, dob, email, sex, phone, password, create_at FROM student ORDER BY name DESC";
     private static final String UPDATE_PASSWORD_BY_ID_QUERY = "UPDATE student SET password = ? WHERE id = ?";
+    private static final String GET_STUDENT_BY_EMAIL_QUERY = "SELECT id, name, dob, email, sex, phone, password, create_at FROM student WHERE email = ?";
 
     public List<Student> getAllStudents() {
         List<Student> result = new ArrayList<>();
@@ -323,5 +324,36 @@ public class StudentDAO extends GenericDAO implements IStudentDAO {
             this.closeConnection(connection);
         }
         return isUpdated;
+    }
+
+    public Student getStudentByEmail(String email) {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            connection = this.getConnection();
+            ps = connection.prepareStatement(GET_STUDENT_BY_EMAIL_QUERY);
+            ps.setString(1, email);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                Student student = new Student();
+                student.setId(rs.getInt("id"));
+                student.setName(rs.getString("name"));
+                student.setDob(rs.getDate("dob"));
+                student.setEmail(rs.getString("email"));
+                student.setSex(rs.getBoolean("sex"));
+                student.setPhone(rs.getString("phone"));
+                student.setPassword(rs.getString("password"));
+                return student;
+            } else {
+                return null;
+            }
+        } catch (SQLException e) {
+            System.err.println("Error fetching student by email: " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        } finally {
+            this.closeConnection(connection);
+        }
     }
 }

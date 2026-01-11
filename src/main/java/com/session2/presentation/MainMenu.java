@@ -1,5 +1,6 @@
 package com.session2.presentation;
 
+import com.session2.model.Student;
 import com.session2.service.IAdminService;
 import com.session2.service.IStudentService;
 import com.session2.service.imp.AdminService;
@@ -124,18 +125,19 @@ public class MainMenu {
         System.out.println();
         ConsoleColors.printBox("ĐĂNG NHẬP HỌC VIÊN");
         System.out.println();
-        ConsoleColors.printPrompt("Mã học viên: ");
-        String studentId = scanner.nextLine();
+        ConsoleColors.printPrompt("Email học viên: ");
+        String studentEmail = scanner.nextLine();
         ConsoleColors.printPrompt("Mật khẩu: ");
         String password = scanner.nextLine();
 
-        Boolean isAuthenticated = studentService.login(studentId, password);
+        Boolean isAuthenticated = studentService.login(studentEmail, password);
 
         if (isAuthenticated) {
+            Student student = studentService.getStudentByEmail(studentEmail);
             ConsoleColors.printSuccess("Đăng nhập thành công!");
             ConsoleColors.delay(500);
             ConsoleColors.clearScreen();
-            studentPresentation.display();
+            studentPresentation.display(student.getId());
         }
 
         ConsoleColors.printError("Mã học viên hoặc mật khẩu không đúng!");

@@ -78,7 +78,7 @@ public class CoursePresentation {
         } while (choice != 7);
     }
 
-    private void displayCourses() {
+    public void displayCourses() {
         ConsoleColors.printHeader("DANH SÁCH KHÓA HỌC");
 
         List<Course> courses = this.courseService.getAllCourses();

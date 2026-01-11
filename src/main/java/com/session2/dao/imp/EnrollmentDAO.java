@@ -10,6 +10,7 @@ import com.session2.dao.IEnrollmentDAO;
 import com.session2.model.Course;
 import com.session2.model.Student;
 
+import response.CourseRest;
 import response.StudentRest;
 
 public class EnrollmentDAO extends BaseDAO implements IEnrollmentDAO {
@@ -18,7 +19,7 @@ public class EnrollmentDAO extends BaseDAO implements IEnrollmentDAO {
             + "JOIN enrollment e ON e.student_id = s.id "
             + "WHERE e.course_id = ?";
 
-    private static final String GET_ENROLLMENTS_BY_STUDENT_ID_QUERY = "SELECT e.id, e.student_id, e.course_id, e.enroll_date, c.name AS course_name "
+    private static final String GET_ENROLLMENTS_BY_STUDENT_ID_QUERY = "SELECT c.id, c.name, c.create_at, e.status "
             + "FROM course c "
             + "JOIN enrollment e ON e.course_id = c.id "
             + "WHERE e.student_id = ?";
@@ -66,8 +67,8 @@ public class EnrollmentDAO extends BaseDAO implements IEnrollmentDAO {
         return students;
     }
 
-    public List<Course> getEnrollmentsByStudentId(Integer studentId) {
-        List<Course> courses = new ArrayList<>();
+    public List<CourseRest> getEnrollmentsByStudentId(Integer studentId) {
+        List<CourseRest> coursesRest = new ArrayList<>();
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -77,17 +78,19 @@ public class EnrollmentDAO extends BaseDAO implements IEnrollmentDAO {
             ps.setInt(1, studentId);
             rs = ps.executeQuery();
             while (rs.next()) {
-                Course course = new Course();
-                course.setId(rs.getInt("course_id"));
-                course.setName(rs.getString("course_name"));
-                courses.add(course);
+                CourseRest courseRest = new CourseRest();
+                courseRest.setId(rs.getInt("id"));
+                courseRest.setName(rs.getString("name"));
+                courseRest.setCreateAt(rs.getTimestamp("create_at"));
+                courseRest.setStatus(rs.getString("status"));
+                coursesRest.add(courseRest);
             }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             this.closeConnection(connection);
         }
-        return courses;
+        return coursesRest;
     }
 
     public Boolean enrollCourse(Integer studentId, Integer courseId, String status) {

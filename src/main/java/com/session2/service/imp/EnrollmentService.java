@@ -7,6 +7,7 @@ import com.session2.dao.imp.EnrollmentDAO;
 import com.session2.model.Student;
 import com.session2.service.IEnrollmentService;
 
+import response.CourseRest;
 import response.StudentRest;
 
 public class EnrollmentService implements IEnrollmentService {
@@ -27,6 +28,10 @@ public class EnrollmentService implements IEnrollmentService {
 
     public List<StudentRest> getEnrollmentsByStatusAndStudentId(Integer courseId) {
         return this.enrollmentDAO.getEnrollmentsByStatusAndStudentId(courseId);
+    }
+
+    public List<CourseRest> getEnrollmentsByStudentId(Integer studentId) {
+        return this.enrollmentDAO.getEnrollmentsByStudentId(studentId);
     }
 
 }

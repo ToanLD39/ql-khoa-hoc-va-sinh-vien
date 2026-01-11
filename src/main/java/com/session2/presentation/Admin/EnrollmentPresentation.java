@@ -258,7 +258,7 @@ public class EnrollmentPresentation {
                 Boolean isSuccess = this.enrollmentService.enrollCourse(studentId, courseId,
                         Constant.SUCCESS);
                 if (isSuccess) {
-                    ConsoleColors.printSuccess("Xóa học viên khỏi khóa học thành công!");
+                    ConsoleColors.printSuccess("Duyệt học viên vào khóa học thành công!");
                     ConsoleColors.delay(500);
                     ConsoleColors.clearScreen();
                 } else {

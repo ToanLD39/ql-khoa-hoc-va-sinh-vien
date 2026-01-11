@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.session2.model.Student;
 
+import response.CourseRest;
 import response.StudentRest;
 
 public interface IEnrollmentService {
@@ -14,4 +15,6 @@ public interface IEnrollmentService {
     Boolean deleteEnrollment(Integer studentId, Integer courseId);
 
     List<StudentRest> getEnrollmentsByStatusAndStudentId(Integer courseId);
+
+    List<CourseRest> getEnrollmentsByStudentId(Integer studentId);
 }

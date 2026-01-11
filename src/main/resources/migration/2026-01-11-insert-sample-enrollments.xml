@@ -7,61 +7,61 @@
 
     <!-- Insert sample enrollments with different statuses -->
     <changeSet id="2026-01-11-insert-sample-enrollments-01" author="toanld">
-        <!-- Enrollments with REGISTER status -->
+        <!-- Enrollments with Registered status -->
         <insert tableName="enrollment">
             <column name="student_id" value="1"/>
             <column name="course_id" value="1"/>
-            <column name="status" value="REGISTER"/>
+            <column name="status" value="Registered"/>
         </insert>
 
         <insert tableName="enrollment">
             <column name="student_id" value="2"/>
             <column name="course_id" value="2"/>
-            <column name="status" value="REGISTER"/>
+            <column name="status" value="Registered"/>
         </insert>
 
         <insert tableName="enrollment">
             <column name="student_id" value="3"/>
             <column name="course_id" value="3"/>
-            <column name="status" value="REGISTER"/>
+            <column name="status" value="Registered"/>
         </insert>
 
-        <!-- Enrollments with SUCCESS status -->
+        <!-- Enrollments with Success status -->
         <insert tableName="enrollment">
             <column name="student_id" value="1"/>
             <column name="course_id" value="2"/>
-            <column name="status" value="SUCCESS"/>
+            <column name="status" value="Success"/>
         </insert>
 
         <insert tableName="enrollment">
             <column name="student_id" value="2"/>
             <column name="course_id" value="3"/>
-            <column name="status" value="SUCCESS"/>
+            <column name="status" value="Success"/>
         </insert>
 
         <insert tableName="enrollment">
             <column name="student_id" value="4"/>
             <column name="course_id" value="1"/>
-            <column name="status" value="SUCCESS"/>
+            <column name="status" value="Success"/>
         </insert>
 
-        <!-- Enrollments with REJECT status -->
+        <!-- Enrollments with Reject status -->
         <insert tableName="enrollment">
             <column name="student_id" value="3"/>
             <column name="course_id" value="1"/>
-            <column name="status" value="REJECT"/>
+            <column name="status" value="Reject"/>
         </insert>
 
         <insert tableName="enrollment">
             <column name="student_id" value="5"/>
             <column name="course_id" value="2"/>
-            <column name="status" value="REJECT"/>
+            <column name="status" value="Reject"/>
         </insert>
 
         <insert tableName="enrollment">
             <column name="student_id" value="4"/>
             <column name="course_id" value="3"/>
-            <column name="status" value="REJECT"/>
+            <column name="status" value="Reject"/>
         </insert>
     </changeSet>
 

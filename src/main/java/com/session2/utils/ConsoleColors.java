@@ -3,6 +3,7 @@ package com.session2.utils;
 import com.session2.model.Course;
 import com.session2.model.Student;
 
+import response.CourseRest;
 import response.StudentRest;
 
 import com.session2.model.Enrollment;
@@ -321,8 +322,8 @@ public class ConsoleColors {
     /**
      * In danh sách đăng ký học
      */
-    public static void printEnrollmentList(List<Enrollment> enrollments) {
-        if (enrollments == null || enrollments.isEmpty()) {
+    public static void printEnrollmentList(List<CourseRest> coursesRest) {
+        if (coursesRest == null || coursesRest.isEmpty()) {
             printWarning("Không có dữ liệu!");
             return;
         }
@@ -330,25 +331,23 @@ public class ConsoleColors {
         TablePrinter table = new TablePrinter();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
-        table.setHeaders("ID", "ID Học viên", "ID Khóa học", "Ngày đăng ký", "Trạng thái")
+        table.setHeaders("ID Khóa học", "Tên khóa học", "Ngày đăng ký", "Trạng thái")
                 .setAlignments(
-                        TablePrinter.Alignment.CENTER,
                         TablePrinter.Alignment.CENTER,
                         TablePrinter.Alignment.CENTER,
                         TablePrinter.Alignment.CENTER,
                         TablePrinter.Alignment.CENTER);
 
-        for (Enrollment enrollment : enrollments) {
+        for (CourseRest courseRest : coursesRest) {
             table.addRow(
-                    enrollment.getId(),
-                    enrollment.getStudentId(),
-                    enrollment.getCourseId(),
-                    enrollment.getRegisterAt() != null ? dateFormat.format(enrollment.getRegisterAt()) : "",
-                    enrollment.getStatus() != null ? enrollment.getStatus() : "");
+                    courseRest.getId(),
+                    courseRest.getName(),
+                    courseRest.getCreateAt() != null ? dateFormat.format(courseRest.getCreateAt()) : "",
+                    courseRest.getStatus() != null ? courseRest.getStatus() : "");
         }
 
         table.print();
-        printInfo("Tổng số đăng ký: " + enrollments.size());
+        printInfo("Tổng số đăng ký: " + coursesRest.size());
     }
 
     /**
