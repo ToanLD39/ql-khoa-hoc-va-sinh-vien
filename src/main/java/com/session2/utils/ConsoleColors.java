@@ -2,6 +2,9 @@ package com.session2.utils;
 
 import com.session2.model.Course;
 import com.session2.model.Student;
+
+import response.StudentRest;
+
 import com.session2.model.Enrollment;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -251,6 +254,37 @@ public class ConsoleColors {
 
         table.print();
         printInfo("Tổng số học viên: " + students.size());
+    }
+
+    /**
+     * In danh sách học viên
+     */
+    public static void printStudentRestList(List<StudentRest> studentRests) {
+        if (studentRests == null || studentRests.isEmpty()) {
+            printWarning("Không có dữ liệu!");
+            return;
+        }
+
+        TablePrinter table = new TablePrinter();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+        table.setHeaders("ID", "Họ và tên", "Email", "Trạng thái đăng ký")
+                .setAlignments(
+                        TablePrinter.Alignment.CENTER,
+                        TablePrinter.Alignment.LEFT,
+                        TablePrinter.Alignment.CENTER,
+                        TablePrinter.Alignment.CENTER);
+
+        for (StudentRest studentRest : studentRests) {
+            table.addRow(
+                    studentRest.getId(),
+                    studentRest.getName(),
+                    studentRest.getEmail(),
+                    studentRest.getStatus());
+        }
+
+        table.print();
+        printInfo("Tổng số học viên: " + studentRests.size());
     }
 
     /**

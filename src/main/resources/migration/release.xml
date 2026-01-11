@@ -9,5 +9,7 @@
     <include file="migration/2026-01-10-insert-default-admin.xml"/>
     <include file="migration/2026-01-10-add-ischangepassword-column.xml"/>
     <include file="migration/2026-01-11-insert-sample-courses.xml"/>
+    <include file="migration/2026-01-11-insert-sample-students.xml"/>
+    <include file="migration/2026-01-11-insert-sample-enrollments.xml"/>
 
 </databaseChangeLog>

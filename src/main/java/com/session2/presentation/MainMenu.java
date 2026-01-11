@@ -111,6 +111,7 @@ public class MainMenu {
             ConsoleColors.printSuccess("Đổi mật khẩu thành công! Vui lòng đăng nhập lại.");
             ConsoleColors.delay(500);
             ConsoleColors.clearScreen();
+            return;
         }
 
         ConsoleColors.printError("Đổi mật khẩu thất bại! Vui lòng thử lại.");

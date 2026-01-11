@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.session2.model.Course;
+import com.session2.presentation.Common.PressToBack;
 import com.session2.service.ICourseService;
 import com.session2.service.imp.CourseService;
 import com.session2.utils.ConsoleColors;
@@ -13,6 +14,8 @@ import com.session2.utils.ConsoleColors;
 public class CoursePresentation {
     private Scanner scanner;
     private ICourseService courseService;
+
+    private PressToBack pressToBack;
 
     public CoursePresentation() {
         this.scanner = new Scanner(System.in);
@@ -112,9 +115,13 @@ public class CoursePresentation {
         Boolean isCreated = this.courseService.createCourse(course);
         if (isCreated) {
             ConsoleColors.printSuccess("Thêm khóa học thành công!");
-        } else {
-            ConsoleColors.printError("Thêm khóa học thất bại!");
+            ConsoleColors.delay(500);
+            ConsoleColors.clearScreen();
+            return;
         }
+        ConsoleColors.printError("Thêm khóa học thất bại!");
+        ConsoleColors.delay(500);
+        ConsoleColors.clearScreen();
     }
 
     private void editCourse() {
@@ -247,15 +254,7 @@ public class CoursePresentation {
 
         ConsoleColors.printCourseList(courses);
 
-        do {
-            ConsoleColors.printPrompt("Nhấn 'B' để quay lại: ");
-            String input = scanner.nextLine();
-            if (input.equalsIgnoreCase("B")) {
-                ConsoleColors.clearScreen();
-                break;
-            }
-            ConsoleColors.printError("Lựa chọn không hợp lệ!");
-        } while (true);
+        pressToBack.pressToBack();
     }
 
     private void sortCourses() {

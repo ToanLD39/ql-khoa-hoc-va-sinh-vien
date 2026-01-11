@@ -7,21 +7,23 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.session2.dao.IStudentDAO;
 import com.session2.model.Student;
 
-public class StudentDAO extends BaseDAO {
-    private static final String GET_ALL_STUDENTS_QUERY = "SELECT id, name, dob, email, sex, phone, password, create_at FROM students";
-    private static final String LOG_IN_QUERY = "SELECT 1 FROM students WHERE email = ? AND password = ?";
-    private static final String GET_STUDENT_BY_ID_QUERY = "SELECT id, name, dob, email, sex, phone, password, create_at FROM students WHERE id = ?";
-    private static final String GET_STUDENTS_BY_NAME_QUERY = "SELECT id, name, dob, email, sex, phone, password, create_at FROM students WHERE name ILIKE ?";
-    private static final String GET_STUDENTS_BY_EMAIL_QUERY = "SELECT id, name, dob, email, sex, phone, password, create_at FROM students WHERE email ILIKE ?";
-    private static final String CREATE_STUDENT_QUERY = "INSERT INTO students (name, dob, email, sex, phone, password, create_at) VALUES (?, ?, ?, ?, ?, ?, ?)";
-    private static final String UPDATE_STUDENT_QUERY = "UPDATE students SET name = ?, dob = ?, email = ?, sex = ?, phone = ?, password = ? WHERE id = ?";
-    private static final String SORT_STUDENTS_BY_ID_QUERY = "SELECT id, name, dob, email, sex, phone, password, create_at FROM students ORDER BY id ASC";
-    private static final String SORT_STUDENTS_BY_NAME_QUERY = "SELECT id, name, dob, email, sex, phone, password, create_at FROM students ORDER BY name ASC";
-    private static final String SORT_STUDENTS_DESC_BY_ID_QUERY = "SELECT id, name, dob, email, sex, phone, password, create_at FROM students ORDER BY id DESC";
-    private static final String SORT_STUDENTS_DESC_BY_NAME_QUERY = "SELECT id, name, dob, email, sex, phone, password, create_at FROM students ORDER BY name DESC";
-    private static final String UPDATE_PASSWORD_BY_ID_QUERY = "UPDATE students SET password = ? WHERE id = ?";
+public class StudentDAO extends GenericDAO implements IStudentDAO {
+    private static final String GET_ALL_STUDENTS_QUERY = "SELECT id, name, dob, email, sex, phone, password, create_at FROM student";
+    private static final String LOG_IN_QUERY = "SELECT 1 FROM student WHERE email = ? AND password = ?";
+    private static final String GET_STUDENT_BY_ID_QUERY = "SELECT id, name, dob, email, sex, phone, password, create_at FROM student WHERE id = ?";
+    private static final String SEARCH_STUDENT_BY_ID_QUERY = "SELECT id, name, dob, email, sex, phone, password, create_at FROM student WHERE id = ILIKE ?";
+    private static final String GET_STUDENTS_BY_NAME_QUERY = "SELECT id, name, dob, email, sex, phone, password, create_at FROM student WHERE name ILIKE ?";
+    private static final String GET_STUDENTS_BY_EMAIL_QUERY = "SELECT id, name, dob, email, sex, phone, password, create_at FROM student WHERE email ILIKE ?";
+    private static final String CREATE_STUDENT_QUERY = "INSERT INTO student (name, dob, email, sex, phone, password, create_at) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    private static final String UPDATE_STUDENT_QUERY = "UPDATE student SET name = ?, dob = ?, email = ?, sex = ?, phone = ?, password = ? WHERE id = ?";
+    private static final String SORT_STUDENTS_BY_ID_QUERY = "SELECT id, name, dob, email, sex, phone, password, create_at FROM student ORDER BY id ASC";
+    private static final String SORT_STUDENTS_BY_NAME_QUERY = "SELECT id, name, dob, email, sex, phone, password, create_at FROM student ORDER BY name ASC";
+    private static final String SORT_STUDENTS_DESC_BY_ID_QUERY = "SELECT id, name, dob, email, sex, phone, password, create_at FROM student ORDER BY id DESC";
+    private static final String SORT_STUDENTS_DESC_BY_NAME_QUERY = "SELECT id, name, dob, email, sex, phone, password, create_at FROM student ORDER BY name DESC";
+    private static final String UPDATE_PASSWORD_BY_ID_QUERY = "UPDATE student SET password = ? WHERE id = ?";
 
     public List<Student> getAllStudents() {
         List<Student> result = new ArrayList<>();
@@ -103,6 +105,38 @@ public class StudentDAO extends BaseDAO {
             this.closeConnection(connection);
         }
         return student;
+    }
+
+    public List<Student> getStudentsById(int courseId) {
+        List<Student> result = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            connection = this.getConnection();
+            ps = connection.prepareStatement(SEARCH_STUDENT_BY_ID_QUERY);
+            ps.setString(1, "%" + courseId + "%");
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Student student = new Student();
+                student.setId(rs.getInt("id"));
+                student.setName(rs.getString("name"));
+                student.setDob(rs.getDate("dob"));
+                student.setEmail(rs.getString("email"));
+                student.setSex(rs.getBoolean("sex"));
+                student.setPhone(rs.getString("phone"));
+                student.setPassword(rs.getString("password"));
+                result.add(student);
+            }
+            connection.commit();
+        } catch (SQLException e) {
+            System.err.println("Error fetching students by ID: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            this.closeConnection(connection);
+        }
+        return result;
     }
 
     public List<Student> getStudentsByName(String name) {

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet id="insert-sample-students" author="toanld">
+        <comment>Insert 10 sample students into student table</comment>
+        
+        <insert tableName="student">
+            <column name="name" value="Nguyễn Văn An"/>
+            <column name="dob" valueDate="2000-03-15"/>
+            <column name="email" value="nguyenvanan@gmail.com"/>
+            <column name="sex" valueBoolean="true"/>
+            <column name="phone" value="0901234567"/>
+            <column name="password" value="123456"/>
+            <column name="create_at" valueDate="2026-01-11"/>
+        </insert>
+
+        <insert tableName="student">
+            <column name="name" value="Trần Thị Bình"/>
+            <column name="dob" valueDate="2001-05-20"/>
+            <column name="email" value="tranthibinh@gmail.com"/>
+            <column name="sex" valueBoolean="false"/>
+            <column name="phone" value="0912345678"/>
+            <column name="password" value="123456"/>
+            <column name="create_at" valueDate="2026-01-11"/>
+        </insert>
+
+        <insert tableName="student">
+            <column name="name" value="Lê Hoàng Cường"/>
+            <column name="dob" valueDate="1999-08-10"/>
+            <column name="email" value="lehoangcuong@gmail.com"/>
+            <column name="sex" valueBoolean="true"/>
+            <column name="phone" value="0923456789"/>
+            <column name="password" value="123456"/>
+            <column name="create_at" valueDate="2026-01-11"/>
+        </insert>
+
+        <insert tableName="student">
+            <column name="name" value="Phạm Thị Dung"/>
+            <column name="dob" valueDate="2002-01-25"/>
+            <column name="email" value="phamthidung@gmail.com"/>
+            <column name="sex" valueBoolean="false"/>
+            <column name="phone" value="0934567890"/>
+            <column name="password" value="123456"/>
+            <column name="create_at" valueDate="2026-01-11"/>
+        </insert>
+
+        <insert tableName="student">
+            <column name="name" value="Hoàng Minh Đức"/>
+            <column name="dob" valueDate="2000-11-30"/>
+            <column name="email" value="hoangminhduc@gmail.com"/>
+            <column name="sex" valueBoolean="true"/>
+            <column name="phone" value="0945678901"/>
+            <column name="password" value="123456"/>
+            <column name="create_at" valueDate="2026-01-11"/>
+        </insert>
+
+        <insert tableName="student">
+            <column name="name" value="Đặng Thị Hoa"/>
+            <column name="dob" valueDate="2001-07-18"/>
+            <column name="email" value="dangthihoa@gmail.com"/>
+            <column name="sex" valueBoolean="false"/>
+            <column name="phone" value="0956789012"/>
+            <column name="password" value="123456"/>
+            <column name="create_at" valueDate="2026-01-11"/>
+        </insert>
+
+        <insert tableName="student">
+            <column name="name" value="Vũ Quốc Huy"/>
+            <column name="dob" valueDate="1998-12-05"/>
+            <column name="email" value="vuquochuy@gmail.com"/>
+            <column name="sex" valueBoolean="true"/>
+            <column name="phone" value="0967890123"/>
+            <column name="password" value="123456"/>
+            <column name="create_at" valueDate="2026-01-11"/>
+        </insert>
+
+        <insert tableName="student">
+            <column name="name" value="Bùi Thị Kim"/>
+            <column name="dob" valueDate="2002-04-22"/>
+            <column name="email" value="buithikim@gmail.com"/>
+            <column name="sex" valueBoolean="false"/>
+            <column name="phone" value="0978901234"/>
+            <column name="password" value="123456"/>
+            <column name="create_at" valueDate="2026-01-11"/>
+        </insert>
+
+        <insert tableName="student">
+            <column name="name" value="Đinh Văn Long"/>
+            <column name="dob" valueDate="2000-09-14"/>
+            <column name="email" value="dinhvanlong@gmail.com"/>
+            <column name="sex" valueBoolean="true"/>
+            <column name="phone" value="0989012345"/>
+            <column name="password" value="123456"/>
+            <column name="create_at" valueDate="2026-01-11"/>
+        </insert>
+
+        <insert tableName="student">
+            <column name="name" value="Võ Thị Mai"/>
+            <column name="dob" valueDate="2001-06-08"/>
+            <column name="email" value="vothimai@gmail.com"/>
+            <column name="sex" valueBoolean="false"/>
+            <column name="phone" value="0990123456"/>
+            <column name="password" value="123456"/>
+            <column name="create_at" valueDate="2026-01-11"/>
+        </insert>
+
+        <rollback>
+            <delete tableName="student">
+                <where>email IN ('nguyenvanan@gmail.com', 'tranthibinh@gmail.com', 'lehoangcuong@gmail.com', 'phamthidung@gmail.com', 'hoangminhduc@gmail.com', 'dangthihoa@gmail.com', 'vuquochuy@gmail.com', 'buithikim@gmail.com', 'dinhvanlong@gmail.com', 'vothimai@gmail.com')</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>
