@@ -57,4 +57,12 @@ public class StudentService implements IStudentService {
     public Student getStudentByEmail(String email) {
         return studentDAO.getStudentByEmail(email);
     }
+
+    public Boolean loginById(int studentId, String newPassword) {
+        return studentDAO.loginById(studentId, newPassword);
+    }
+
+    public Boolean changePassword(int studentId, String newPassword) {
+        return studentDAO.changePassword(studentId, newPassword);
+    }
 }

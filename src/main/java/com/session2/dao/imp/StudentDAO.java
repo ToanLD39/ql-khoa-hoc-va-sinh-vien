@@ -25,6 +25,8 @@ public class StudentDAO extends GenericDAO implements IStudentDAO {
     private static final String SORT_STUDENTS_DESC_BY_NAME_QUERY = "SELECT id, name, dob, email, sex, phone, password, create_at FROM student ORDER BY name DESC";
     private static final String UPDATE_PASSWORD_BY_ID_QUERY = "UPDATE student SET password = ? WHERE id = ?";
     private static final String GET_STUDENT_BY_EMAIL_QUERY = "SELECT id, name, dob, email, sex, phone, password, create_at FROM student WHERE email = ?";
+    private static final String CHECK_PASSWORD_QUERY = "SELECT 1 FROM student WHERE id = ? AND password = ?";
+    private static final String CHANGE_PASSWORD_QUERY = "UPDATE student SET password = ? WHERE id = ?";
 
     public List<Student> getAllStudents() {
         List<Student> result = new ArrayList<>();
@@ -355,5 +357,49 @@ public class StudentDAO extends GenericDAO implements IStudentDAO {
         } finally {
             this.closeConnection(connection);
         }
+    }
+
+    public Boolean loginById(int studentId, String newPassword) {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        Boolean isChanged = false;
+
+        try {
+            connection = this.getConnection();
+            ps = connection.prepareStatement(CHECK_PASSWORD_QUERY);
+            ps.setString(1, newPassword);
+            ps.setInt(2, studentId);
+            int rowsAffected = ps.executeUpdate();
+            isChanged = rowsAffected > 0 ? true : false;
+            connection.commit();
+        } catch (SQLException e) {
+            System.err.println("Error changing password: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            this.closeConnection(connection);
+        }
+        return isChanged;
+    }
+
+    public Boolean changePassword(int studentId, String newPassword) {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        Boolean isChanged = false;
+
+        try {
+            connection = this.getConnection();
+            ps = connection.prepareStatement(CHANGE_PASSWORD_QUERY);
+            ps.setString(1, newPassword);
+            ps.setInt(2, studentId);
+            int rowsAffected = ps.executeUpdate();
+            isChanged = rowsAffected > 0 ? true : false;
+            connection.commit();
+        } catch (SQLException e) {
+            System.err.println("Error changing password: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            this.closeConnection(connection);
+        }
+        return isChanged;
     }
 }

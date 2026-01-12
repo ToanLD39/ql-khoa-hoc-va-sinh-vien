@@ -25,4 +25,8 @@ public interface IStudentDAO extends IGenericDAO {
 
     Student getStudentByEmail(String email);
 
+    Boolean loginById(int studentId, String newPassword);
+
+    Boolean changePassword(int studentId, String newPassword);
+
 }

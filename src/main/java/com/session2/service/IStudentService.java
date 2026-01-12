@@ -26,4 +26,8 @@ public interface IStudentService {
     List<Student> getStudentsById(int courseId);
 
     Student getStudentByEmail(String email);
+
+    Boolean loginById(int studentId, String newPassword);
+
+    Boolean changePassword(int studentId, String newPassword);
 }
