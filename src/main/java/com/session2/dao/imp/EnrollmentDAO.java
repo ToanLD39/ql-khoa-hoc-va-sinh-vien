@@ -24,7 +24,7 @@ public class EnrollmentDAO extends BaseDAO implements IEnrollmentDAO {
             + "JOIN enrollment e ON e.course_id = c.id "
             + "WHERE e.student_id = ?";
 
-    private static final String GET_ENROLLMENT_WITH_STUDENT_QUERY = "SELECT s.id, s.name, s.email, e.status"
+    private static final String GET_ENROLLMENT_WITH_STUDENT_QUERY = "SELECT e.id AS enrollment_id, s.id, s.name, s.email, e.status "
             + "FROM student s "
             + "JOIN enrollment e ON e.student_id = s.id "
             + "WHERE e.course_id = ? ";
@@ -33,7 +33,7 @@ public class EnrollmentDAO extends BaseDAO implements IEnrollmentDAO {
 
     private static final String UPDATE_ENROLLMENT_STATUS_QUERY = "UPDATE enrollment SET status = ? WHERE id = ?";
 
-    private static final String GET_ENROLLMENT_BY_STATUS_QUERY = "SELECT e.id, e.student_id, e.course_id, e.enroll_date, c.name AS course_name "
+    private static final String GET_ENROLLMENT_BY_STATUS_QUERY = "SELECT e.id, e.student_id, e.course_id, e.registered_at, c.name AS course_name "
             + "FROM course c "
             + "JOIN enrollment e ON e.course_id = c.id "
             + "WHERE e.status = ? AND e.student_id = ? ";
@@ -161,6 +161,7 @@ public class EnrollmentDAO extends BaseDAO implements IEnrollmentDAO {
             rs = ps.executeQuery();
             while (rs.next()) {
                 StudentRest studentRest = new StudentRest();
+                studentRest.setEnrollmentId(rs.getInt("enrollment_id"));
                 studentRest.setId(rs.getInt("id"));
                 studentRest.setName(rs.getString("name"));
                 studentRest.setEmail(rs.getString("email"));

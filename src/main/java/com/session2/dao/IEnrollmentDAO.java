@@ -18,4 +18,6 @@ public interface IEnrollmentDAO {
     List<StudentRest> getEnrollmentsByStatusAndStudentId(Integer courseId);
 
     List<CourseRest> getEnrollmentsByStudentId(Integer studentId);
+
+    boolean updateEnrollmentStatus(Integer enrollmentId, String status);
 }

@@ -243,6 +243,7 @@ public class EnrollmentPresentation {
             System.out.println();
 
             ConsoleColors.printHeader("DUYỆT ĐĂNG KÝ HỌC VIÊN");
+            ConsoleColors.printStudentList(this.enrollmentService.getStudentsByCourseId(courseId));
             ConsoleColors.printPrompt("Nhập ID học viên: ");
             int studentId = Integer.parseInt(scanner.nextLine());
 

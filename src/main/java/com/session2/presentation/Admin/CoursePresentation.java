@@ -101,8 +101,18 @@ public class CoursePresentation {
         ConsoleColors.printPrompt("Name: ");
         String name = scanner.nextLine();
 
-        ConsoleColors.printPrompt("Duration: ");
-        int duration = Integer.parseInt(scanner.nextLine());
+        int duration = 0;
+        boolean validDuration = false;
+        do {
+            ConsoleColors.printPrompt("Duration: ");
+            String durationInput = scanner.nextLine();
+            if (durationInput.matches("^[0-9]+$")) {
+                duration = Integer.parseInt(durationInput);
+                validDuration = true;
+            } else {
+                ConsoleColors.printError("Duration phải là số! Vui lòng nhập lại.");
+            }
+        } while (!validDuration);
 
         ConsoleColors.printPrompt("Instructor: ");
         String instructor = scanner.nextLine();
@@ -135,19 +145,16 @@ public class CoursePresentation {
             ConsoleColors.printError("Khóa học với ID " + id + " không tồn tại!");
             return;
         }
-
-        ConsoleColors.printHeader("CHỈNH SỬA THÔNG TIN KHÓA HỌC");
-
-        ConsoleColors.printCourseDetails(course);
+        ConsoleColors.clearScreen();
 
         editCourseDetails(id, course);
     }
 
     private void editCourseDetails(Integer id, Course course) {
         int choice;
-        boolean isEdited = false;
-
         do {
+            ConsoleColors.printCourseDetails(course);
+
             ConsoleColors.printMenuItem("1", "Sửa tên khóa học");
             ConsoleColors.printMenuItem("2", "Sửa thời luợng khóa học");
             ConsoleColors.printMenuItem("3", "Sửa giảng viên khóa học");
@@ -237,6 +244,8 @@ public class CoursePresentation {
         boolean isDeleted = this.courseService.deleteCourse(id);
         if (isDeleted) {
             ConsoleColors.printSuccess("Xóa khóa học thành công!");
+            ConsoleColors.delay(500);
+            ConsoleColors.clearScreen();
             return;
         }
         ConsoleColors.printError("Không tồn tại khóa học!");

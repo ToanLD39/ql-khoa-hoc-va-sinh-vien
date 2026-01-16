@@ -1,5 +1,6 @@
 package com.session2.presentation.Admin;
 
+import java.io.Console;
 import java.sql.Date;
 import java.util.List;
 import java.util.Scanner;
@@ -74,6 +75,7 @@ public class StudentPresentation {
                         sortStudent();
                         break;
                     case 7:
+                        ConsoleColors.clearScreen();
                         break;
                     default:
                         ConsoleColors.printError("Lựa chọn không hợp lệ!");
@@ -94,16 +96,54 @@ public class StudentPresentation {
 
     private void addStudent() {
         ConsoleColors.printHeader("THÊM MỚI HỌC VIÊN");
-        ConsoleColors.printPrompt("Name: ");
-        String name = scanner.nextLine();
-        ConsoleColors.printPrompt("DoB(yyyy-mm-dd): ");
-        Date dob = Date.valueOf(scanner.nextLine());
-        ConsoleColors.printPrompt("Email: ");
-        String email = scanner.nextLine();
+
+        // Validate Name
+        String name;
+        do {
+            ConsoleColors.printPrompt("Name: ");
+            name = scanner.nextLine().trim();
+            if (name.isEmpty()) {
+                ConsoleColors.printError("Tên không được để trống!");
+            } else {
+                break;
+            }
+        } while (true);
+
+        // Validate Date of Birth
+        Date dob = null;
+        boolean validDob = false;
+        do {
+            ConsoleColors.printPrompt("DoB(yyyy-mm-dd): ");
+            String dobInput = scanner.nextLine().trim();
+            if (dobInput.matches("^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$")) {
+                try {
+                    dob = Date.valueOf(dobInput);
+                    validDob = true;
+                } catch (IllegalArgumentException e) {
+                    ConsoleColors.printError("Ngày sinh không hợp lệ! Vui lòng nhập đúng định dạng yyyy-mm-dd.");
+                }
+            } else {
+                ConsoleColors.printError("Định dạng ngày không hợp lệ! Vui lòng nhập theo định dạng yyyy-mm-dd.");
+            }
+        } while (!validDob);
+
+        // Validate Email
+        String email;
+        do {
+            ConsoleColors.printPrompt("Email: ");
+            email = scanner.nextLine().trim();
+            if (email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
+                break;
+            } else {
+                ConsoleColors.printError("Email không hợp lệ! Vui lòng nhập đúng định dạng email.");
+            }
+        } while (true);
+
+        // Validate Sex
         Boolean sexValue;
         do {
             ConsoleColors.printPrompt("Sex(Male[M]/Female[F]): ");
-            String sex = scanner.nextLine();
+            String sex = scanner.nextLine().trim();
             if (sex.equalsIgnoreCase("M")) {
                 sexValue = true;
                 break;
@@ -112,12 +152,33 @@ public class StudentPresentation {
                 sexValue = false;
                 break;
             }
-            ConsoleColors.printError("Lựa chọn không hợp lệ!");
+            ConsoleColors.printError("Lựa chọn không hợp lệ! Vui lòng nhập M hoặc F.");
         } while (true);
-        ConsoleColors.printPrompt("Phone: ");
-        String phone = scanner.nextLine();
-        ConsoleColors.printPrompt("Password: ");
-        String password = scanner.nextLine();
+
+        // Validate Phone
+        String phone;
+        do {
+            ConsoleColors.printPrompt("Phone: ");
+            phone = scanner.nextLine().trim();
+            if (phone.matches("^[0-9]{10,11}$")) {
+                break;
+            } else {
+                ConsoleColors.printError("Số điện thoại không hợp lệ! Vui lòng nhập 10-11 chữ số.");
+            }
+        } while (true);
+
+        // Validate Password
+        String password;
+        do {
+            ConsoleColors.printPrompt("Password: ");
+            password = scanner.nextLine().trim();
+            if (password.length() >= 6) {
+                break;
+            } else {
+                ConsoleColors.printError("Mật khẩu phải có ít nhất 6 ký tự!");
+            }
+        } while (true);
+
         Student student = new Student();
         student.setName(name);
         student.setDob(dob);
@@ -138,7 +199,15 @@ public class StudentPresentation {
     }
 
     private void updateStudent() {
+        List<Student> allStudents = this.studentService.getAllStudents();
+        if (allStudents.isEmpty()) {
+            ConsoleColors.printError("Chưa có học viên nào trong hệ thống!");
+            ConsoleColors.delay(500);
+            ConsoleColors.clearScreen();
+            return;
+        }
         ConsoleColors.printHeader("CHỈNH SỬA THÔNG TIN HỌC VIÊN");
+        ConsoleColors.printStudentList(allStudents);
         ConsoleColors.printPrompt("Nhập ID học viên cần chỉnh sửa: ");
         int id = Integer.parseInt(scanner.nextLine());
         Student existingStudent = this.studentService.getStudentById(id);
@@ -160,9 +229,8 @@ public class StudentPresentation {
             ConsoleColors.printMenuItem("3", "Sửa email (" + existingStudent.getEmail() + ")");
             ConsoleColors.printMenuItem("4", "Sửa giới tính (" + (existingStudent.getSex() ? "Male" : "Female") + ")");
             ConsoleColors.printMenuItem("5", "Sửa số điện thoại (" + existingStudent.getPhone() + ")");
-            ConsoleColors.printMenuItem("6", "Sửa mật khẩu");
-            ConsoleColors.printMenuItem("7", "Lưu thay đổi và quay lại");
-            ConsoleColors.printMenuItem("8", "Hủy bỏ và quay lại");
+            ConsoleColors.printMenuItem("6", "Lưu thay đổi và quay lại");
+            ConsoleColors.printMenuItem("7", "Hủy bỏ và quay lại");
             System.out.println();
             ConsoleColors.printPrompt("Nhập lựa chọn: ");
 
@@ -244,16 +312,6 @@ public class StudentPresentation {
                         }
                         break;
                     case 6:
-                        ConsoleColors.printPrompt("Nhập mật khẩu mới: ");
-                        String password = scanner.nextLine();
-                        if (!password.isEmpty()) {
-                            existingStudent.setPassword(password);
-                            hasChanges = true;
-                            ConsoleColors.printSuccess("Đã cập nhật mật khẩu!");
-                            ConsoleColors.delay(300);
-                        }
-                        break;
-                    case 7:
                         if (hasChanges) {
                             Boolean isUpdated = this.studentService.updateStudent(id, existingStudent);
                             if (isUpdated) {
@@ -271,7 +329,7 @@ public class StudentPresentation {
                         }
                         ConsoleColors.clearScreen();
                         return;
-                    case 8:
+                    case 7:
                         ConsoleColors.clearScreen();
                         return;
                     default:
@@ -283,11 +341,12 @@ public class StudentPresentation {
                 ConsoleColors.delay(500);
                 choice = -1;
             }
-        } while (choice != 7 && choice != 8);
+        } while (choice != 7);
     }
 
     private void deleteStudent() {
         ConsoleColors.printHeader("XÓA HỌC VIÊN");
+        ConsoleColors.printStudentList(this.studentService.getAllStudents());
         ConsoleColors.printPrompt("Nhập ID học viên cần xóa: ");
 
         try {

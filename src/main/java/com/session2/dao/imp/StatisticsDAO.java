@@ -12,10 +12,10 @@ import com.session2.model.Course;
 import response.CourseStudentRest;
 
 public class StatisticsDAO extends BaseDAO implements IStatisticsDAO {
-    private static final String STATISTICS_COUNT_COURSE_AND_STUDENT = "SELECT COUNT(DISTINCT c.id) AS course_count, COUNT(s.id) AS student_count FROM courses c LEFT JOIN student_courses sc ON c.id = sc.course_id LEFT JOIN students s ON sc.student_id = s.id;";
-    private static final String STATISTICS_COURSE_STUDENT = "SELECT c.name AS course_name, COUNT(s.id) AS student_count FROM courses c LEFT JOIN student_courses sc ON c.id = sc.course_id LEFT JOIN students s ON sc.student_id = s.id GROUP BY c.id, c.name;";
-    private static final String TOP_5_COURSES_HAVE_MORE_STUDENTS = "SELECT c.* FROM courses c LEFT JOIN student_courses sc ON c.id = sc.course_id GROUP BY c.id ORDER BY COUNT(sc.student_id) DESC LIMIT 5;";
-    private static final String COURSES_HAVE_MORE_10_STUDENTS = "SELECT c.* FROM courses c LEFT JOIN student_courses sc ON c.id = sc.course_id GROUP BY c.id HAVING COUNT(sc.student_id) > 10;";
+    private static final String STATISTICS_COUNT_COURSE_AND_STUDENT = "SELECT COUNT(DISTINCT c.id) AS course_count, COUNT(DISTINCT s.id) AS student_count FROM course c LEFT JOIN enrollment e ON c.id = e.course_id LEFT JOIN student s ON e.student_id = s.id;";
+    private static final String STATISTICS_COURSE_STUDENT = "SELECT c.name AS course_name, COUNT(s.id) AS student_count FROM course c LEFT JOIN enrollment e ON c.id = e.course_id LEFT JOIN student s ON e.student_id = s.id GROUP BY c.id, c.name;";
+    private static final String TOP_5_COURSES_HAVE_MORE_STUDENTS = "SELECT c.* FROM course c LEFT JOIN enrollment e ON c.id = e.course_id GROUP BY c.id ORDER BY COUNT(e.student_id) DESC LIMIT 5;";
+    private static final String COURSES_HAVE_MORE_10_STUDENTS = "SELECT c.* FROM course c LEFT JOIN enrollment e ON c.id = e.course_id GROUP BY c.id HAVING COUNT(e.student_id) > 10;";
 
     public List<Integer> countCourseAndStudent() {
         List<Integer> counts = new ArrayList<>();
